@@ -1,0 +1,26 @@
+from feedparser import parse
+
+feed = parse('http://www.jupiterbroadcasting.com/feeds/unfilterHD.xml')
+print('{| class="article-table sortable"')
+print('!data-sort-type="number"|No.')
+print('!data-sort-type="text"|Title')
+print('!data-sort-type="date"|Release Date')
+print('|-')
+
+for show in feed.entries[:-1]:
+    split = show.title.split('|')
+    show_notes = show.link
+    title = split[0][:-1]
+    number = split[1][10:]
+    date = show.published[:-15]
+    date_data = show.published_parsed
+
+    print('|' + number)
+    print('|[' + show_notes, title + ']')
+    print('|[' + 'http://www.jupiterbroadcasting.com/date/' +\
+          str(date_data.tm_year) +\
+          '/' + str(date_data.tm_mon) +\
+          '/' + str(date_data.tm_mday), date + ']')
+    print('|-')
+
+print('|}')
